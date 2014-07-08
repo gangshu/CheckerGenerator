@@ -1,0 +1,24 @@
+class TheSinkTrigger : public Trigger {
+  REF_COUNTING_IMPL
+public:
+  function_t func;
+  TheSinkTrigger(function_t function)
+  {
+	  func = function;
+  }
+  void extract(node_t node, TriggerResult *res) {
+   if (  expr_isCallTo(node_getReadExpression(node), "<FunctionName>")) {
+		   expr_t expr = node_getReadExpression(node);
+		   <Code to get arg
+				expr_t arg = expr_getCallArgument(expr, <ID>);
+		   or
+				expr_t arg = node_getWrittenExpression(node);
+		   >
+		   memitem_t mem = extractMemoryItem(arg);
+		   if(!traverse(node, mem, &isInteresting, <isForward>)){
+		   		res->add((memitem_t)NULL);
+			}
+
+   }
+  }
+};

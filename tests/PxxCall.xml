@@ -1,0 +1,32 @@
+<root>
+	<Function>
+		<name>fopen()</name>
+		<return id="0">
+			<type>FILE *</type>
+		</return>
+		<param id="1">
+			<type>char *</type>
+			<declname>filename</declname>
+		</param>
+	</Function>
+	<Constraints>
+		<CallConstraint>
+			<Function>
+				<name>fclose</name>
+				<return id="0">
+					<type>int</type>
+				</return>
+				<param id="1">
+					<type>FILE *</type>
+					<declname>stream</declname>
+				</param>
+			</Function>
+			<Reverse>No</Reverse>
+			<Location>post</Location>
+			<ParameterPair>
+				<First>0</First>
+				<Second>1</Second>
+			</ParameterPair>
+		</CallConstraint>
+	</Constraints>
+</root>

@@ -1,0 +1,16 @@
+class TheSourceTrigger : public Trigger {
+  REF_COUNTING_IMPL
+public:
+  function_t func;
+  TheSourceTrigger(function_t function)
+  {
+	  func = function;
+  }
+
+void extract(node_t node, TriggerResult *res) {
+   if ( node_getWrittenExpression(node) ) {
+	   expr_t expr = node_getWrittenExpression(node);
+   	   extractVarsInExpr(expr, res, node, func);
+   }
+  }
+};

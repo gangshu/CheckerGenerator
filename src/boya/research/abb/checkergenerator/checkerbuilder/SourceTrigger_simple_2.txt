@@ -1,0 +1,15 @@
+class TheSourceTrigger : public Trigger {
+  REF_COUNTING_IMPL
+public:
+  function_t func;
+  TheSourceTrigger(function_t function)
+  {
+	  func = function;
+  }
+
+void extract(node_t node, TriggerResult *res) {
+	if (node_getInDegree(node) == 0) {
+		res->add((memitem_t)NULL);
+	}
+  }
+};

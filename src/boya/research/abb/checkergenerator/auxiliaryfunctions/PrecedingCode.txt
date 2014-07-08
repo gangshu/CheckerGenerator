@@ -1,0 +1,16 @@
+#define KPA_PLUGIN_NAME <CheckerName>
+#define NULL 0
+#include "kpaPlugin.h"
+#include "kpaAPI.h"
+#include "kpaUtil.hh"
+#include "kpaTrigger.hh"
+#include "kpaTriggerUtil.hh"
+#include "kpaSourceSinkAnalyzer.hh"
+#include "kpaMirUtil.hh"
+#include <string.h>
+#include <stack>
+#include <map>
+using namespace kpa;
+using namespace std;
+expr_t exprG;
+bool ret = false;

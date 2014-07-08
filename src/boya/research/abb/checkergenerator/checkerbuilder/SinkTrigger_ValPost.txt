@@ -1,0 +1,26 @@
+class TheSinkTrigger : public Trigger {
+  REF_COUNTING_IMPL
+public:
+  function_t func;
+  TheSinkTrigger(function_t function)
+  {
+	  func = function;
+  }
+  void extract(node_t node, TriggerResult *res) {
+	  if(ret) 
+		  return;	  
+	  if(!node_getReadExpression(node))
+		  return;
+	  expr_t expr = node_getReadExpression(node);
+	  memitem_t mem;
+	  if(node_isConditionalBranch(node))
+	  {
+		  memitem_t mem = expr_getMemitem(exprG);
+		  if(traverseAST(node_getReadExpression(node), mem) == true){
+			  ret = true;
+			  return;
+		  }
+	  }
+	  extractVarsInExpr(expr, res, node, func);
+  }
+};

@@ -1,0 +1,29 @@
+bool isType(expr_t expr, char* typeToCheck)
+{
+	sema_t sema;
+	if(!sema_isVariable(expr_getSemanticInfo(expr)))
+	{
+		sema = expr_getSemanticInfo(expr);
+	}
+	else
+		sema = sema_getVariableType(expr_getSemanticInfo(expr));
+	
+	const char* typeName;
+	if(sema_isPointer(sema)){
+		//typeName = sema_getName(sema_getPointedType(sema));		
+		/**
+		 * Traverse the pointer until it finally reaches a non-pointer block
+		 */
+		while(sema_isPointer(sema)){
+			sema = sema_getPointedType(sema);
+		}
+		typeName = sema_getName(sema);
+	}
+	else
+		typeName = sema_getName(sema);
+	
+	if(strcmp(typeName, typeToCheck) == 0)
+		return true;
+	else
+		return false;
+}

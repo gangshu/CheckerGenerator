@@ -1,0 +1,7 @@
+static void processFunction(function_t function) {
+  SourceSinkAnalyzer *a = getConditionalSourceSinkChecker("<CheckerName>");
+  a->addSourceTrigger(new TheSourceTrigger(function), getEvent("<SourceMessage>"));
+  a->addSinkTrigger(new TheSinkTrigger(function), getEvent("<SinkMessage>"));
+  a->analyze(function);
+  a->Release();
+}

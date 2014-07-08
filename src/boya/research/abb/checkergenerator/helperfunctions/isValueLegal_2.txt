@@ -1,0 +1,49 @@
+bool isValueLegal(int pointerLevel, expr_t expr, node_t node, function_t func){
+	/**
+	 * 1. Extract memory block.
+	 * If the expression is a pointer, get the memory block it eventually pointed to
+	 */
+	memitem_t mem = expr_getMemitem(expr);
+	for(int i = 0; i < pointerLevel; i++)
+		mem = memitem_getPointed(mem);
+	constraint_t constraint = mi_getNodePreConstraint(mem, node, func);
+	/**
+	 * 2. Get the constraint and see whether it is legal
+	 */
+	<ConstraintCode>
+	 //==============NE Constraint=====================================
+	 long ne_value;
+	 if(constraint_isNE(constraint, &ne_value) && ne_value == <value>){
+		constraint_delete(constraint);
+		return true;
+	}
+	
+	//===============E Constraint=======================================
+     long eq_value;
+	 if(constraint_isEQ(constraint, &eq_value) && eq_value == <value>){
+		constraint_delete(constraint);
+		return true;
+	}
+	
+	//===============G or GE Constraint=======================================
+	long min = 0;
+	if(constraint_getMinValue(constraint, &min) && min /*<Symbol, > or >=>*/ <value>)
+		return true;
+		
+	//===============S or SE Constraint=======================================
+	long max = 0;
+	if(constraint_getMaxValue(constraint, &max) && max /*<Symbol, < or <=>*/ <value>)
+		return true;
+	
+	//===============Interval constraint=======================================
+	long min = 0, max = 0;
+	if(constraint_getMaxValue(constraint, &max) && max /*<Symbol, < or <=>*/ <value>)
+		if(constraint_getMinValue(constraint, &min) && min /*<Symbol, > or >=>*/ <value>)
+			return true;
+	
+	/**
+	 * 3. Value illegal; return false
+	 */
+	constraint_delete(constraint);
+	return false;
+}

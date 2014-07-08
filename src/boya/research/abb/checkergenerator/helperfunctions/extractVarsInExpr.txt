@@ -1,0 +1,32 @@
+void extractVarsInExpr(expr_t expr, TriggerResult *res, node_t node, function_t func)
+{
+	 if(expr_isVariable(expr)){
+		res->add(expr);
+	}
+	 else if(expr_isCall(expr)){
+	  int paraNum = expr_getNumberOfArguments(expr);
+	  expr_t param;
+	  for(int i = 1; i <= paraNum; i++){
+		  param = expr_getCallArgument(expr, i);
+		  extractVarsInExpr(param, res, node, func);
+	  }
+	 }
+	else if(expr_isUnaryOperation(expr))
+		extractVarsInExpr(expr_getUnaryOperand(expr), res, node, func);
+	else if(expr_isBinaryOperation(expr)){
+		extractVarsInExpr(expr_getBinaryOperand1(expr), res, node, func);
+		extractVarsInExpr(expr_getBinaryOperand2(expr), res, node, func);
+	}
+	else if(expr_isAddress(expr))
+		extractVarsInExpr(expr_getAddressed(expr), res, node, func);
+	else if(expr_isDereference(expr))
+		extractVarsInExpr(expr_getDereferenced(expr), res, node, func);
+	else if(expr_isField(expr)){
+		extractVarsInExpr(expr_getFieldBase(expr), res, node, func);
+		extractVarsInExpr(expr_getFieldMember(expr), res, node, func);
+	}
+	else if(expr_isIndex(expr)){
+		extractVarsInExpr(expr_getIndexBase(expr), res, node, func);
+		extractVarsInExpr(expr_getIndexOffset(expr), res, node, func);
+	}
+}

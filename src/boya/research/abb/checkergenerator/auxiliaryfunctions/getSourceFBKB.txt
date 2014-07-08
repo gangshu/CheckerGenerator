@@ -1,0 +1,8 @@
+static void genSourceFBKB(function_t function) {
+  SourceSinkAnalyzerPtr a = getConditionalSourceFBKBGenerator("<CheckerName>_Source");
+  a->addSourceTrigger(new TheSourceTrigger(function), getEvent("<SourceMessage>"));
+  a->addKBSource("<CheckerName>_Source", getEvent("'%v' is defined through a call to '%f'"));
+  a->addSinkTrigger(getReturnTrigger(), getEvent("'%v' is returned"));
+  a->addSinkTrigger(getOutputTrigger(), getEvent("'%v' is returned"));
+  a->analyze(function);
+}

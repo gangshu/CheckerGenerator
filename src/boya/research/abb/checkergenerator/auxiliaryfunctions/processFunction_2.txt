@@ -1,0 +1,8 @@
+static void processFunction(function_t function) {
+  SourceSinkAnalyzer *a = getConditionalSourceSinkChecker("<CheckerName>");
+  a->addSourceTrigger(new TheSourceTrigger(function), getEvent("<SourceMessage>"));
+  a->addSourceTrigger(getInputTrigger(), getEvent("'v' is passed as a formal-in parameter"));
+  a->addSinkTrigger(new TheSinkTrigger(function), getEvent("<SinkMessage>"));
+  a->analyze(function);
+  a->Release();
+}

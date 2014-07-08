@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<help language="cxx">
+    <defect id="<CheckerName>">
+        <description>
+            <CheckerMessage>
+        </description>
+        <risks>
+            Description of possible vulnerability and risks caused by this issue (optional section).
+        </risks>
+        <prevention>
+            Issue mitigation and prevention description (optional section).
+        </prevention>
+
+        <!-- Optional -->
+        <examples>
+            <example line="1">
+                <![CDATA[
+                Code snippet
+            ]]>
+                <description>
+                    Example description (optional section).
+                </description>
+            </example>
+            <!-- Here you can add more examples -->
+        </examples>
+    </defect>
+</help>

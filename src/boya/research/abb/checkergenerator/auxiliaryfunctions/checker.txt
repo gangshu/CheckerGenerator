@@ -1,0 +1,8 @@
+static void checker(function_t function) {
+  SourceSinkAnalyzerPtr a = getConditionalSourceSinkChecker("<CheckerName>");
+  a->addSourceTrigger(new TheSourceTrigger(function), getEvent("<SourceMessage>"));
+  a->addKBSource("<CheckerName>_Source", getEvent("'%v' is allocated through a call to '%f'"));
+  a->addSinkTrigger(new TheSinkTrigger(function), getEvent("<SinkMessage>"));
+  a->addKBSink("<CheckerName>_Sink", getEvent("'%v' is deleted through a call to '%f'"));
+  a->analyze(function);
+}

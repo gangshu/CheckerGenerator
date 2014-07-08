@@ -1,0 +1,21 @@
+bool isValueLegal(int pointerLevel, expr_t expr, node_t node, function_t func){
+	/**
+	 * 1. Extract memory block.
+	 * If the expression is a pointer, get the memory block it eventually pointed to
+	 */
+	memitem_t mem = expr_getMemitem(expr);
+	for(int i = 0; i < pointerLevel; i++)
+		mem = memitem_getPointed(mem);
+	constraint_t constraint = mi_getNodePreConstraint(mem, node, func);
+	/**
+	 * 2. Get the constraint and see whether it is legal
+	 */
+	 
+<ConstraintCode>
+	
+	/**
+	 * 3. Value illegal; return false
+	 */
+	constraint_delete(constraint);
+	return false;
+}

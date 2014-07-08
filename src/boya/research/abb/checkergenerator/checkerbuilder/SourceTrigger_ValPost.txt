@@ -1,0 +1,21 @@
+class TheSourceTrigger : public Trigger {
+  REF_COUNTING_IMPL
+public:
+  function_t func;
+  TheSourceTrigger(function_t function)
+  {
+	  func = function;
+  }
+
+  void extract(node_t node, TriggerResult *res) {
+   if ( expr_isCallTo(node_getReadExpression(node), "<FunctionName>")
+      && node_getWrittenExpression(node) ) {
+	   expr_t expr = node_getWrittenExpression(node);
+	   bool result = isValueLegal(<LevelOfPointers>, expr, node, func);
+	   if(result == false){
+		  exprG = expr;
+	      extractVarsInExpr(expr, res, node, func);
+	   }
+   }
+  }
+};

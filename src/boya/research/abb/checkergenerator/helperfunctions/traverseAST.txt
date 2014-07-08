@@ -1,0 +1,97 @@
+bool traverseAST(expr_t expr, memitem_t mem)
+{
+	 memitem_t mem2;
+	 if(expr_isVariable(expr)){
+		mem2 = expr_getMemitem(expr);
+		if(mem2 == mem)
+			return true;
+		else
+			return false;
+	}
+	 else if(expr_isCall(expr)){
+	  int paraNum = expr_getNumberOfArguments(expr);
+	  expr_t param;
+	  for(int i = 1; i <= paraNum; i++){
+		  param = expr_getCallArgument(expr, i);
+		  mem2 = expr_getMemitem(param);
+		  if(mem2 == mem)
+		  	return true;
+		  else
+		  	return traverseAST(param, mem);
+	  }
+	 }
+	else if(expr_isUnaryOperation(expr)){
+		expr_t tmp = expr_getUnaryOperand(expr);
+		mem2 = expr_getMemitem(tmp);
+		if(mem2 == mem)
+			return true;
+		else
+		  	return traverseAST(tmp, mem);		
+	}
+	else if(expr_isBinaryOperation(expr)){
+		expr_t tmp = expr_getBinaryOperand1(expr);
+		mem2 = expr_getMemitem(tmp);
+		if(mem2 == mem)
+		  	return true;
+		else{
+			if(traverseAST(tmp,mem) == true)
+				return true;
+			else
+			{
+				tmp = expr_getBinaryOperand2(expr);
+				mem2 = expr_getMemitem(tmp);
+				if(mem2 == mem)
+		  			return true;
+				else
+		  			return traverseAST(tmp, mem);		
+			}
+
+		}			
+	}
+	else if(expr_isAddress(expr)){
+		expr_t tmp = expr_getAddressed(expr);
+		mem2 = expr_getMemitem(tmp);
+		if(mem2 == mem)
+		  	return true;
+		else
+		  	return traverseAST(tmp, mem);		
+	}
+	else if(expr_isDereference(expr)){
+		expr_t tmp = expr_getDereferenced(expr);
+		mem2 = expr_getMemitem(tmp);
+		if(mem2 == mem)
+		  	return true;
+		else
+		  	return traverseAST(tmp, mem);	
+	}
+	else if(expr_isField(expr)){
+		expr_t tmp = expr_getFieldBase(expr);
+		mem2 = expr_getMemitem(tmp);
+		if(mem2 == mem)
+		  	return true;
+		else
+		   return traverseAST(tmp, mem);
+		  		
+		tmp = expr_getFieldMember(expr);
+		mem2 = expr_getMemitem(tmp);
+		if(mem2 == mem)
+		  	return true;
+		else
+		  	return traverseAST(tmp, mem);			  		
+	}
+	else if(expr_isIndex(expr)){
+		expr_t tmp = expr_getIndexBase(expr);
+		mem2 = expr_getMemitem(tmp);
+	    if(mem2 == mem)
+		  	return true;
+		else
+		  	return traverseAST(tmp, mem);
+		  		
+		tmp = expr_getIndexOffset(expr);
+		mem2 = expr_getMemitem(tmp);
+		  if(mem2 == mem)
+		  	return true;
+		  else
+		  	return traverseAST(tmp, mem);		
+	}
+}

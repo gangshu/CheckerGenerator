@@ -1,0 +1,40 @@
+bool traverse(node_t root,  memitem_t mem, bool(*isInteresting)(node_t, memitem_t), bool isForward){
+	stack<node_t> sk;
+	map<node_t, int> visited;
+	map<node_t, int> visiting;
+	sk.push(root);
+	visiting[root]++;
+	node_t cur;
+	edgeIterator_t ei; 	
+	while(!sk.empty()){
+		cur = sk.top();
+		sk.pop();
+		visited[cur]++;
+		if(isInteresting(cur, mem)) //Get all the interesting nodes while traversing
+			return true;
+	    if(isForward){
+			if(node_isReturn(cur) || node_isLeaf(cur)){//Reached the end of the program		
+				continue;
+			}
+			for (ei = node_getOutEdgeSet(cur); edgeIterator_valid(ei); edgeIterator_next(&ei)) {
+				edge_t current_edge = edgeIterator_value(ei); 
+				node_t neighbor = edge_getEndNode(current_edge);
+				if(visited.find(neighbor) == visited.end() && visiting.find(neighbor) == visiting.end()){//Node is neigher visited nor in the stack
+					visiting[neighbor]++;
+					sk.push(neighbor);
+				}			
+			}		
+		}
+		else{
+			for (ei = node_getInEdgeSet(cur); edgeIterator_valid(ei); edgeIterator_next(&ei)) {
+				edge_t current_edge = edgeIterator_value(ei); 
+				node_t neighbor = edge_getStartNode(current_edge);
+				if(visited.find(neighbor) == visited.end() && visiting.find(neighbor) == visiting.end()){//Node is neither visited nor in the stack
+					visiting[neighbor]++;
+					sk.push(neighbor);
+				}			
+			}
+		}
+	}
+	return false;
+}

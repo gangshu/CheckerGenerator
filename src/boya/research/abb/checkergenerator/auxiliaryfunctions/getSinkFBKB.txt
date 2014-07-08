@@ -1,0 +1,7 @@
+static void genSinkFBKB(function_t function) {
+  SourceSinkAnalyzerPtr a = getConditionalSinkFBKBGenerator("<CheckerName>_Sink");
+  a->addSourceTrigger(getInputTrigger(), getEvent("'%v' is passed in the '%f' function"));
+  a->addSinkTrigger(new TheSinkTrigger(function), getEvent("<SinkMessage>"));
+  a->addKBSink("<CheckerName>_Sink", getEvent("<SinkMessage>, through a call to '%f'"));
+  a->analyze(function);
+}

@@ -1,0 +1,20 @@
+bool isInteresting(node_t node, memitem_t mem){
+	if(!node_getReadExpression(node))
+		return false;
+	expr_t expr = node_getReadExpression(node);
+	if(expr_isCallTo(expr, "<FunctionName>"))
+	{
+<CodeToGetArgInConstraint
+		expr_t arg = expr_getCallArgument(expr, <ID>);
+		or
+		expr_t arg = node_getWrittenExpression(node);
+>
+		//memitem_t mem1 = extractMemoryItem(arg);
+<CodeToGetMem>	
+		if(mem == mem1)
+		{
+			return true;
+		}
+	}
+	return false;
+}

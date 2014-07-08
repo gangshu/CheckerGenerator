@@ -1,0 +1,20 @@
+<root>
+	<Function>
+		<name>f</name>
+		<return id="0">
+			<type>int</type>
+		</return>		
+		<param id="1">
+			<type>int</type>
+			<declname>x</declname>
+		</param>	
+	</Function>
+	<Constraints>
+		<ConditionalCheckConstraint>
+			<param>
+				<id>0</id>
+			</param>
+		<Location>post</Location>
+		</ConditionalCheckConstraint>
+	</Constraints>
+</root>

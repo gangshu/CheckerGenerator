@@ -1,0 +1,25 @@
+class TheSinkTrigger : public Trigger {
+  REF_COUNTING_IMPL
+public:
+  function_t func;
+  TheSinkTrigger(function_t function)
+  {
+	  func = function;
+  }
+  void extract(node_t node, TriggerResult *res) {
+   if (  expr_isCallTo(node_getReadExpression(node), "<FunctionName>")) {
+		   expr_t expr = node_getReadExpression(node);			   
+		   /*Case 1: The return value is not assigned and is not wrapped by an if check, like if(somdFunction())*/
+		   if(!node_getWrittenExpression(node) && !node_isConditionalBranch(node)){
+				res->add((memitem_t)NULL);		  
+		   }
+		   /*Case 2: The return value is assigned but there is no if check or return on the returned value*/
+		   else{
+			   memitem_t mem = extractMemoryItem(node_getWrittenExpression(node));
+			   if(!traverse(node, mem, &isInteresting, true)){
+			   		res->add((memitem_t)NULL);
+				}
+			}
+   }
+  }
+};

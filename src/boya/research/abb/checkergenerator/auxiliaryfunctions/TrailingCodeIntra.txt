@@ -1,0 +1,23 @@
+static void init() {
+  registerFunctionHook(processFunction);
+}
+
+static kwcc_plugin_info plugin_info = {
+  KPA_STANDARD_PLUGIN_HEADER,
+  0,
+  init
+};
+
+static struct kwcc_plugin_info* libinfo[] = {
+  &plugin_info,
+  (struct kwcc_plugin_info *)0
+};
+
+extern "C" 
+#ifdef _WIN32
+__declspec(dllexport)
+#endif
+struct kwcc_plugin_info **ktc_plugin_library_info()
+{
+    return libinfo;
+}

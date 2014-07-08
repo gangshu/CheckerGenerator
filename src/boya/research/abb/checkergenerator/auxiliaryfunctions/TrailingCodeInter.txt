@@ -1,0 +1,24 @@
+static void template_init() {
+  registerKBKindForConditionalSocket("<CheckerName>_Source");
+  registerKBKindForConditionalSocket("<CheckerName>_Sink");
+  registerFunctionHook(checker);
+  registerKBGeneratorFunctionHook(genSourceFBKB);
+  registerKBGeneratorFunctionHook(genSinkFBKB);
+}
+kwcc_plugin_info <CheckerName>_plugin_info = {
+  KPA_STANDARD_PLUGIN_HEADER,
+  0,
+  template_init
+};
+static struct kwcc_plugin_info* libinfo[] = {
+  &<CheckerName>_plugin_info,
+  (struct kwcc_plugin_info *)0
+};
+extern "C"
+#ifdef _WIN32
+__declspec(dllexport)
+#endif
+struct kwcc_plugin_info **ktc_plugin_library_info()
+{
+  return libinfo;
+}
